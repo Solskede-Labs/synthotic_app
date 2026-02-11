@@ -238,37 +238,6 @@ python utils/download_ffmpeg.py
 - Improved settings window with scrolling support
 - Better device selection and configuration flow
 
-### v0.4.3 (2026-02-08)
-
-**Performance Improvements:**
-- ⚡ Simplified configuration architecture for better maintainability
-- 🔄 Improved audio device discovery reliability using SoundDevice library
-- 📦 Reduced boilerplate and merged utility modules
-- 🛠️ Streamlined dependency injection pattern
-
-### v0.4.2 (2026-02-05)
-
-**Major Changes:**
-- 🔄 Migrated from PyAudio to FFmpeg subprocess architecture
-- ⚡ Changed from onefile to onedir build (instant startup)
-- 📦 Added professional Inno Setup installer
-- 🛠️ Created automated FFmpeg download utility
-
-**Removed Dependencies:**
-- ❌ `pyaudiowpatch`
-- ❌ `soundfile`
-- ❌ `numpy` (audio processing)
-
-**Technical Improvements:**
-- Automatic audio mixing via FFmpeg amix filter
-- Better hardware compatibility (DirectShow backend)
-- Robust process management with graceful shutdown
-
-### v1.1.2 (2026-02-04)
-- Real-time microphone resampling
-- Icon and version metadata fixes
-- Improved first-run experience
-
 ---
 
 ## 👨‍💻 Developer
