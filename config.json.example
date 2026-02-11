@@ -1,0 +1,20 @@
+{
+  "_comment": "Synthotic Configuration File",
+  "_usage": "Rename this file to 'config.json' to activate custom settings",
+  
+  "preferred_device": null,
+  
+  "_preferred_device_examples": {
+    "pt-br": "Mixagem Estéreo (Realtek(R) Audio)",
+    "en-us": "Stereo Mix (Realtek High Definition Audio)",
+    "generic": "Mixagem"
+  },
+  
+  "_instructions": [
+    "If auto-detection fails, set 'preferred_device' to the exact name of your loopback device.",
+    "To find the exact name, check the 'system.log' file after running Synthotic once.",
+    "Look for the line '=== DIAGNOSTIC: All Detected Audio Devices ==='",
+    "Copy the EXACT device name (including parentheses and special characters)",
+    "Example: \"preferred_device\": \"Mixagem Estéreo (Realtek(R) Audio)\""
+  ]
+}

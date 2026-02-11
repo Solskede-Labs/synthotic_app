@@ -1,0 +1,4 @@
+pystray
+Pillow
+faster-whisper
+sounddevice
