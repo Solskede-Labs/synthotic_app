@@ -1,4 +1,4 @@
-# 🚀 Quick Build Guide - Synthotic v1.1.3
+# 🚀 Quick Build Guide - Synthotic v0.4.4
 
 ## For Users (End-to-End Installation)
 
@@ -72,7 +72,7 @@ Pillow
 faster-whisper
 ```
 
-**Removed in v1.1.3:**
+**Removed in v0.4.4:**
 - ~~pyaudiowpatch~~
 - ~~soundfile~~
 - ~~numpy~~
@@ -85,7 +85,7 @@ faster-whisper
 ```
 dist/
 └── Synthotic/
-    ├── Synthotic_v1.1.3.exe  (main executable)
+    ├── Synthotic_v0.4.4.exe  (main executable)
     ├── bin/
     │   └── ffmpeg.exe       (audio engine)
     └── _internal/           (dependencies)
@@ -119,7 +119,7 @@ python main.py
 ### 3. Build Test
 ```bash
 pyinstaller build.spec --clean
-dist\Synthotic\Synthotic_v1.1.3.exe
+dist\Synthotic\Synthotic_v0.4.4.exe
 # Should launch instantly (no 5-10s delay)
 ```
 
@@ -160,7 +160,7 @@ When releasing a new version:
 - [ ] Update `setup.iss` → `MyAppVersion`
 - [ ] Update `README.md` → version badge
 - [ ] Build and test
-- [ ] Tag Git release: `git tag v1.1.3`
+- [ ] Tag Git release: `git tag v0.4.4`
 
 ---
 
@@ -168,15 +168,15 @@ When releasing a new version:
 
 ### GitHub Release:
 1. Build installer: `Synthotic_Setup.exe`
-2. Create GitHub release: `v1.1.3`
+2. Create GitHub release: `v0.4.4`
 3. Upload `Synthotic_Setup.exe` as asset
 4. Update release notes
 
 ### Direct Distribution:
-Share `Output\Synthotic_Setup.exe` (~120-150 MB)
+Share `Output\Synthotic_Setup.exe` (~350-360 MB)
 
 ---
 
 **Build Time:** ~2-5 minutes  
-**Installer Size:** ~120-150 MB  
+**Installer Size:** ~350-360 MB  
 **Startup Time:** <1 second (onedir mode)
