@@ -26,18 +26,24 @@ This release focuses on **stability improvements and code refinement**:
 
 ### Installation
 
-1. **Windows**: Download `Synthotic_Setup.exe` from [Releases](https://github.com/josecunha0/synthotic/releases) and run the installer.
-2. **Ubuntu/Linux**: Install from source (see Development Setup below).
-3. Launch Synthotic.
+1. Download `Synthotic_Setup.exe` from [Releases](https://github.com/josecunha0/synthotic/releases)
+2. Run the installer
+3. Launch from Start Menu or Desktop
+4. Done! No configuration needed.
 
 ### First Run
 
-1. Configure a system-audio capture source:
-   - **Windows**: enable `Stereo Mix` (or equivalent) in Sound Settings.
-   - **Ubuntu/Linux**: use a PulseAudio/PipeWire monitor source (for example `<default_sink>.monitor`).
+1. Enable "Stereo Mix" in Windows Sound Settings:
+   - Right-click volume icon → Sounds → Recording tab
+   - Right-click empty space → Show Disabled Devices
+   - Enable "Stereo Mix"
 2. Start Synthotic
 3. Click "START RECORDING"
 4. Your meetings are now being captured and transcribed locally!
+
+### Ubuntu/Linux Note
+
+For Ubuntu/Linux, run from source using a Python virtual environment (`venv`) as described in Development Setup.
 
 ---
 
@@ -46,9 +52,8 @@ This release focuses on **stability improvements and code refinement**:
 ### Prerequisites
 
 - Python 3.9+
-- Windows 10/11 or Ubuntu 22.04+
-- `python3-venv` (Ubuntu/Linux)
-- FFmpeg
+- Windows 10/11
+- FFmpeg (auto-downloaded by our utility)
 
 ### Installation
 
@@ -56,24 +61,24 @@ This release focuses on **stability improvements and code refinement**:
 # Clone the repository
 git clone https://github.com/josecunha0/synthotic.git
 cd synthotic
-```
 
-#### Windows
-
-```bash
 # Install dependencies
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 
-# Download bundled FFmpeg binary
+# Download FFmpeg (required for audio capture)
 python utils/download_ffmpeg.py
 
 # Run the application
 python main.py
 ```
 
-#### Ubuntu/Linux (venv - recommended)
+### Ubuntu/Linux (venv)
 
 ```bash
+# Clone the repository
+git clone https://github.com/josecunha0/synthotic.git
+cd synthotic
+
 # Create and activate virtual environment (PEP 668 safe)
 python3 -m venv .venv
 source .venv/bin/activate
@@ -82,31 +87,11 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
-# Install FFmpeg from apt
+# Install FFmpeg on Ubuntu
 sudo apt update && sudo apt install -y ffmpeg
 
 # Run the application
 python main.py
-```
-
-#### Ubuntu/Linux (without activating venv)
-
-```bash
-python3 -m venv .venv
-./.venv/bin/python -m pip install --upgrade pip
-./.venv/bin/python -m pip install -r requirements.txt
-sudo apt update && sudo apt install -y ffmpeg
-./.venv/bin/python main.py
-```
-
-### FFmpeg setup helper
-
-```bash
-# Windows: download bundled FFmpeg
-python utils/download_ffmpeg.py
-
-# Ubuntu/Linux: install FFmpeg from apt
-sudo apt update && sudo apt install -y ffmpeg
 ```
 
 ---
@@ -116,21 +101,16 @@ sudo apt update && sudo apt install -y ffmpeg
 ### Step 1: Download FFmpeg
 
 ```bash
-# Windows
 python utils/download_ffmpeg.py
-
-# Ubuntu/Linux
-sudo apt update && sudo apt install -y ffmpeg
 ```
 
-On Windows, this downloads and extracts `ffmpeg.exe` to `bin/`.  
-On Ubuntu/Linux, use the system FFmpeg from your package manager.
+This downloads the official FFmpeg Windows build and extracts `ffmpeg.exe` to the `bin/` folder.
 
 ### Step 2: Build the Application
 
 ```bash
 # Install PyInstaller if needed
-python -m pip install pyinstaller
+pip install pyinstaller
 
 # Build (creates dist/Synthotic/ folder)
 pyinstaller build.spec --clean
@@ -249,7 +229,7 @@ Synthotic/
 
 ### "No loopback device found"
 
-**Windows:** Enable Stereo Mix:
+**Solution:** Enable Stereo Mix in Windows:
 
 1. Right-click volume icon → Sounds
 2. Recording tab → Right-click → Show Disabled Devices
@@ -263,7 +243,7 @@ Synthotic/
 
 ### "FFmpeg not found"
 
-**Windows:** Run the download utility:
+**Solution:** Run the download utility:
 
 ```bash
 python utils/download_ffmpeg.py
