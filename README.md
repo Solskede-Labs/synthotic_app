@@ -41,6 +41,10 @@ This release focuses on **stability improvements and code refinement**:
 3. Click "START RECORDING"
 4. Your meetings are now being captured and transcribed locally!
 
+### Ubuntu/Linux Note
+
+For Ubuntu/Linux, run from source using a Python virtual environment (`venv`) as described in Development Setup.
+
 ---
 
 ## 🛠️ Development Setup
@@ -63,6 +67,28 @@ pip install -r requirements.txt
 
 # Download FFmpeg (required for audio capture)
 python utils/download_ffmpeg.py
+
+# Run the application
+python main.py
+```
+
+### Ubuntu/Linux (venv)
+
+```bash
+# Clone the repository
+git clone https://github.com/josecunha0/synthotic.git
+cd synthotic
+
+# Create and activate virtual environment (PEP 668 safe)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies inside venv
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+# Install FFmpeg on Ubuntu
+sudo apt update && sudo apt install -y ffmpeg
 
 # Run the application
 python main.py
@@ -93,6 +119,7 @@ pyinstaller build.spec --clean
 **Output:** `dist/Synthotic/` - Folder with all dependencies
 
 **Test the build:**
+
 ```bash
 dist\Synthotic\Synthotic_v0.4.4.exe
 ```
@@ -117,9 +144,9 @@ Requires [Inno Setup 6](https://jrsoftware.org/isdl.php)
 ```
 User Action → Python → FFmpeg (subprocess)
                          ↓
-              DirectShow Capture
+     DirectShow (Windows) / PulseAudio (Linux)
                          ↓
-         System Audio (Stereo Mix) + Microphone
+      System Audio Loopback + Microphone
                          ↓
               amix filter (real-time mixing)
                          ↓
@@ -142,7 +169,7 @@ User Action → Python → FFmpeg (subprocess)
 
 ```
 Synthotic/
-├── bin/                    # FFmpeg binary (auto-downloaded)
+├── bin/                    # Optional local FFmpeg binary (Windows)
 │   └── ffmpeg.exe
 ├── src/
 │   ├── core/
@@ -181,6 +208,7 @@ Synthotic/
 ## 🎯 Features
 
 ### Core Functionality
+
 - ✅ Dual-channel recording (System Audio + Microphone)
 - ✅ Real-time audio mixing
 - ✅ Automatic transcription
@@ -188,6 +216,7 @@ Synthotic/
 - ✅ Background operation via system tray
 
 ### Technical Features
+
 - ✅ Hardware-agnostic audio capture
 - ✅ Automatic sample rate conversion
 - ✅ Graceful error handling
@@ -201,22 +230,38 @@ Synthotic/
 ### "No loopback device found"
 
 **Solution:** Enable Stereo Mix in Windows:
+
 1. Right-click volume icon → Sounds
 2. Recording tab → Right-click → Show Disabled Devices
 3. Enable "Stereo Mix"
 
+**Ubuntu/Linux:** Ensure PulseAudio/PipeWire monitor source exists:
+
+1. Install `pavucontrol`
+2. Check available sources (`pactl list short sources`)
+3. Select a `*.monitor` source in Synthotic settings
+
 ### "FFmpeg not found"
 
 **Solution:** Run the download utility:
+
 ```bash
 python utils/download_ffmpeg.py
+```
+
+**Ubuntu/Linux:** Install FFmpeg:
+
+```bash
+sudo apt update && sudo apt install -y ffmpeg
 ```
 
 ### Application won't start (PyInstaller build)
 
 **Check:**
+
 1. Ensure `bin/ffmpeg.exe` is bundled in `dist/Synthotic/bin/`
 2. Run from command line to see error messages:
+
    ```bash
    dist\Synthotic\Synthotic_v0.4.3.exe
    ```
@@ -228,12 +273,14 @@ python utils/download_ffmpeg.py
 ### v0.4.4 (2026-02-10)
 
 **Stability Improvements:**
+
 - 🐛 Removed debug logging from production code
 - 🧹 Code cleanup and refinement across all modules
 - � Improved code readability and maintainability
 - ⚙️ Enhanced settings persistence and device configuration
 
 **UI Enhancements:**
+
 - Added onboarding wizard for first-time setup
 - Improved settings window with scrolling support
 - Better device selection and configuration flow
@@ -243,6 +290,7 @@ python utils/download_ffmpeg.py
 ## 👨‍💻 Developer
 
 **José Cunha**
+
 - LinkedIn: [josefernandocunha](https://www.linkedin.com/in/josefernandocunha/)
 - GitHub: [josecunha0](https://github.com/josecunha0/)
 - Website: [Synthotic.com](https://Synthotic.com)
@@ -268,7 +316,7 @@ Copyright © 2026 José Cunha. All rights reserved.
 - [ ] Automatic meeting detection
 - [ ] Speaker diarization (who said what)
 - [ ] Cloud sync option (optional)
-- [ ] macOS and Linux support
+- [ ] macOS support
 - [ ] Real-time transcription preview
 
 ---

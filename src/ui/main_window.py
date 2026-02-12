@@ -1,15 +1,12 @@
 import os
-import sys
 import queue
 import shutil
-import subprocess
 import threading
 import datetime
 import tkinter as tk
 from tkinter import filedialog, ttk, messagebox
 
-from src.config import AppConfig
-from src.constants import APP_NAME, VERSION, BASE_DIR, LOG_FILE, THEME_COLORS, LANG_TEXTS, CONFIG_FILE
+from src.constants import APP_NAME, VERSION, BASE_DIR, THEME_COLORS, LANG_TEXTS
 from src.core.audio_engine import AudioEngine, LoopbackNotFoundError, FFmpegRuntimeError
 from src.core.transcriber import transcription_worker
 from src.ui.welcome_window import WelcomeWindow
@@ -17,6 +14,7 @@ from src.ui.about_window import AboutWindow
 from src.ui.settings_window import SettingsWindow
 from src.ui.tray import TrayManager
 from src.utils import get_resource_path
+from src.platform_utils import open_audio_settings, open_path
 
 class DashboardApp(tk.Tk):
     
@@ -121,7 +119,7 @@ class DashboardApp(tk.Tk):
         footer_frm = tk.Frame(self, bg=THEME_COLORS["bg"])
         footer_frm.pack(side="bottom", fill="x", pady=20, padx=25)
 
-        self.btn_folder = tk.Button(footer_frm, text="", command=lambda: os.startfile(BASE_DIR),
+        self.btn_folder = tk.Button(footer_frm, text="", command=lambda: open_path(BASE_DIR),
                   bg=THEME_COLORS["bg"], fg=THEME_COLORS["text_dim"], activebackground=THEME_COLORS["bg"], activeforeground="white",
                   bd=0, font=("Segoe UI", 9, "underline"), cursor="hand2")
         self.btn_folder.pack(side="right")
@@ -169,7 +167,7 @@ class DashboardApp(tk.Tk):
                     self.get_text("err_loopback_msg")
                 )
                 if response:
-                    subprocess.run("control mmsys.cpl,,1", shell=True)
+                    open_audio_settings()
             except FFmpegRuntimeError as e:
                 messagebox.showerror(
                     self.get_text("err_ffmpeg_title"),
@@ -234,8 +232,8 @@ class DashboardApp(tk.Tk):
                     self.reset_ui()
                     self.tray.update_state("idle")
                     try:
-                        os.startfile(data)
-                        os.startfile(os.path.dirname(data))
+                        open_path(data)
+                        open_path(os.path.dirname(data))
                     except Exception: pass
                     self.deiconify()
                     self.lift()

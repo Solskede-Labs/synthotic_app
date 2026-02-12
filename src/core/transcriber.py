@@ -3,13 +3,15 @@ import time
 import logging
 import traceback
 import datetime
-from queue import Queue
 
 try:
     import soundfile as sf
-    from faster_whisper import WhisperModel
 except ImportError:
     sf = None
+
+try:
+    from faster_whisper import WhisperModel
+except ImportError:
     WhisperModel = None
 
 from src.constants import MODEL_SIZE

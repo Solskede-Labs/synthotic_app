@@ -1,11 +1,12 @@
 import os
+from src.platform_utils import default_recordings_dir
 
 
 # --- GLOBAL CONFIGURATION ---
 APP_NAME = "Synthotic"
 VERSION = "0.4.4"
 BUILD_DATE = "2026-02-08"
-BASE_DIR = os.path.join(os.path.expanduser("~"), "Documents", "Synthotic_Recordings")
+BASE_DIR = default_recordings_dir()
 CONFIG_FILE = os.path.join(BASE_DIR, "config.json")
 LOG_FILE = os.path.join(BASE_DIR, "system.log")
 
@@ -70,7 +71,7 @@ LANG_TEXTS = {
         "welcome_btn": "COMEÇAR A USAR",
         "about_desc": "Gravador e Transcritor Autônomo de Reuniões.\nProcessamento Local com Privacidade em Primeiro Lugar.",
         "err_loopback_title": "Dispositivo de Áudio Não Encontrado",
-        "err_loopback_msg": "Nenhum dispositivo de loopback de áudio do sistema foi encontrado.\n\nPara gravar o áudio do sistema, você precisa habilitar o 'Stereo Mix' ou dispositivo similar nas configurações de som do Windows.\n\nDeseja abrir as configurações de som agora?",
+        "err_loopback_msg": "Nenhum dispositivo de loopback de áudio do sistema foi encontrado.\n\nPara gravar o áudio do sistema, habilite um dispositivo de captura do som do sistema (ex.: Stereo Mix no Windows ou monitor do PulseAudio/PipeWire no Linux).\n\nDeseja abrir as configurações de som agora?",
         "err_ffmpeg_title": "Erro no Motor de Áudio",
         "err_ffmpeg_msg": "Falha ao iniciar o motor de gravação de áudio. Verifique se o FFmpeg está instalado corretamente.",
         "settings_title": "Configurações",
@@ -137,7 +138,7 @@ LANG_TEXTS = {
         "welcome_btn": "GET STARTED",
         "about_desc": "Autonomous Meeting Recorder & Transcriber.\nPrivacy-First Local Processing.",
         "err_loopback_title": "Audio Device Not Found",
-        "err_loopback_msg": "No system audio loopback device found.\n\nTo record system audio, you need to enable 'Stereo Mix' or similar loopback device in Windows Sound settings.\n\nWould you like to open the sound settings now?",
+        "err_loopback_msg": "No system audio loopback device found.\n\nTo record system audio, enable a system-audio capture source (for example Stereo Mix on Windows or a PulseAudio/PipeWire monitor on Linux).\n\nWould you like to open the sound settings now?",
         "err_ffmpeg_title": "Audio Engine Error",
         "err_ffmpeg_msg": "Failed to start audio recording engine. Please verify that FFmpeg is installed correctly.",
         "settings_title": "Settings",
