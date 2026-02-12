@@ -326,6 +326,7 @@ class AudioEngine:
                 cmd,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
+                stdin=subprocess.PIPE,
                 creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
             )
             logger.info(f"FFmpeg process started (PID: {self._process.pid})")
