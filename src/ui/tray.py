@@ -1,5 +1,4 @@
 import os
-import queue
 import logging
 from PIL import Image, ImageDraw
 
@@ -10,6 +9,7 @@ except ImportError:
 
 from src.constants import LANG_TEXTS, BASE_DIR, LOG_FILE, VERSION
 from src.utils import get_resource_path
+from src.platform_utils import open_path
 
 logger = logging.getLogger(__name__)
 
@@ -111,7 +111,4 @@ class TrayManager:
         return img
         
     def safe_open(self, path):
-        try:
-            os.startfile(path)
-        except Exception:
-            pass
+        open_path(path)

@@ -26,17 +26,15 @@ This release focuses on **stability improvements and code refinement**:
 
 ### Installation
 
-1. Download `Synthotic_Setup.exe` from [Releases](https://github.com/josecunha0/synthotic/releases)
-2. Run the installer
-3. Launch from Start Menu or Desktop
-4. Done! No configuration needed.
+1. **Windows**: Download `Synthotic_Setup.exe` from [Releases](https://github.com/josecunha0/synthotic/releases) and run the installer.
+2. **Ubuntu/Linux**: Install from source (see Development Setup below).
+3. Launch Synthotic.
 
 ### First Run
 
-1. Enable "Stereo Mix" in Windows Sound Settings:
-   - Right-click volume icon → Sounds → Recording tab
-   - Right-click empty space → Show Disabled Devices
-   - Enable "Stereo Mix"
+1. Configure a system-audio capture source:
+   - **Windows**: enable `Stereo Mix` (or equivalent) in Sound Settings.
+   - **Ubuntu/Linux**: use a PulseAudio/PipeWire monitor source (for example `<default_sink>.monitor`).
 2. Start Synthotic
 3. Click "START RECORDING"
 4. Your meetings are now being captured and transcribed locally!
@@ -48,8 +46,9 @@ This release focuses on **stability improvements and code refinement**:
 ### Prerequisites
 
 - Python 3.9+
-- Windows 10/11
-- FFmpeg (auto-downloaded by our utility)
+- Windows 10/11 or Ubuntu 22.04+
+- `python3-venv` (Ubuntu/Linux)
+- FFmpeg
 
 ### Installation
 
@@ -57,15 +56,57 @@ This release focuses on **stability improvements and code refinement**:
 # Clone the repository
 git clone https://github.com/josecunha0/synthotic.git
 cd synthotic
+```
 
+#### Windows
+
+```bash
 # Install dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
-# Download FFmpeg (required for audio capture)
+# Download bundled FFmpeg binary
 python utils/download_ffmpeg.py
 
 # Run the application
 python main.py
+```
+
+#### Ubuntu/Linux (venv - recommended)
+
+```bash
+# Create and activate virtual environment (PEP 668 safe)
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies inside venv
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+
+# Install FFmpeg from apt
+sudo apt update && sudo apt install -y ffmpeg
+
+# Run the application
+python main.py
+```
+
+#### Ubuntu/Linux (without activating venv)
+
+```bash
+python3 -m venv .venv
+./.venv/bin/python -m pip install --upgrade pip
+./.venv/bin/python -m pip install -r requirements.txt
+sudo apt update && sudo apt install -y ffmpeg
+./.venv/bin/python main.py
+```
+
+### FFmpeg setup helper
+
+```bash
+# Windows: download bundled FFmpeg
+python utils/download_ffmpeg.py
+
+# Ubuntu/Linux: install FFmpeg from apt
+sudo apt update && sudo apt install -y ffmpeg
 ```
 
 ---
@@ -75,16 +116,21 @@ python main.py
 ### Step 1: Download FFmpeg
 
 ```bash
+# Windows
 python utils/download_ffmpeg.py
+
+# Ubuntu/Linux
+sudo apt update && sudo apt install -y ffmpeg
 ```
 
-This downloads the official FFmpeg Windows build and extracts `ffmpeg.exe` to the `bin/` folder.
+On Windows, this downloads and extracts `ffmpeg.exe` to `bin/`.  
+On Ubuntu/Linux, use the system FFmpeg from your package manager.
 
 ### Step 2: Build the Application
 
 ```bash
 # Install PyInstaller if needed
-pip install pyinstaller
+python -m pip install pyinstaller
 
 # Build (creates dist/Synthotic/ folder)
 pyinstaller build.spec --clean
@@ -93,6 +139,7 @@ pyinstaller build.spec --clean
 **Output:** `dist/Synthotic/` - Folder with all dependencies
 
 **Test the build:**
+
 ```bash
 dist\Synthotic\Synthotic_v0.4.4.exe
 ```
@@ -117,9 +164,9 @@ Requires [Inno Setup 6](https://jrsoftware.org/isdl.php)
 ```
 User Action → Python → FFmpeg (subprocess)
                          ↓
-              DirectShow Capture
+     DirectShow (Windows) / PulseAudio (Linux)
                          ↓
-         System Audio (Stereo Mix) + Microphone
+      System Audio Loopback + Microphone
                          ↓
               amix filter (real-time mixing)
                          ↓
@@ -142,7 +189,7 @@ User Action → Python → FFmpeg (subprocess)
 
 ```
 Synthotic/
-├── bin/                    # FFmpeg binary (auto-downloaded)
+├── bin/                    # Optional local FFmpeg binary (Windows)
 │   └── ffmpeg.exe
 ├── src/
 │   ├── core/
@@ -181,6 +228,7 @@ Synthotic/
 ## 🎯 Features
 
 ### Core Functionality
+
 - ✅ Dual-channel recording (System Audio + Microphone)
 - ✅ Real-time audio mixing
 - ✅ Automatic transcription
@@ -188,6 +236,7 @@ Synthotic/
 - ✅ Background operation via system tray
 
 ### Technical Features
+
 - ✅ Hardware-agnostic audio capture
 - ✅ Automatic sample rate conversion
 - ✅ Graceful error handling
@@ -200,23 +249,39 @@ Synthotic/
 
 ### "No loopback device found"
 
-**Solution:** Enable Stereo Mix in Windows:
+**Windows:** Enable Stereo Mix:
+
 1. Right-click volume icon → Sounds
 2. Recording tab → Right-click → Show Disabled Devices
 3. Enable "Stereo Mix"
 
+**Ubuntu/Linux:** Ensure PulseAudio/PipeWire monitor source exists:
+
+1. Install `pavucontrol`
+2. Check available sources (`pactl list short sources`)
+3. Select a `*.monitor` source in Synthotic settings
+
 ### "FFmpeg not found"
 
-**Solution:** Run the download utility:
+**Windows:** Run the download utility:
+
 ```bash
 python utils/download_ffmpeg.py
+```
+
+**Ubuntu/Linux:** Install FFmpeg:
+
+```bash
+sudo apt update && sudo apt install -y ffmpeg
 ```
 
 ### Application won't start (PyInstaller build)
 
 **Check:**
+
 1. Ensure `bin/ffmpeg.exe` is bundled in `dist/Synthotic/bin/`
 2. Run from command line to see error messages:
+
    ```bash
    dist\Synthotic\Synthotic_v0.4.3.exe
    ```
@@ -228,12 +293,14 @@ python utils/download_ffmpeg.py
 ### v0.4.4 (2026-02-10)
 
 **Stability Improvements:**
+
 - 🐛 Removed debug logging from production code
 - 🧹 Code cleanup and refinement across all modules
 - � Improved code readability and maintainability
 - ⚙️ Enhanced settings persistence and device configuration
 
 **UI Enhancements:**
+
 - Added onboarding wizard for first-time setup
 - Improved settings window with scrolling support
 - Better device selection and configuration flow
@@ -243,6 +310,7 @@ python utils/download_ffmpeg.py
 ## 👨‍💻 Developer
 
 **José Cunha**
+
 - LinkedIn: [josefernandocunha](https://www.linkedin.com/in/josefernandocunha/)
 - GitHub: [josecunha0](https://github.com/josecunha0/)
 - Website: [Synthotic.com](https://Synthotic.com)
@@ -268,7 +336,7 @@ Copyright © 2026 José Cunha. All rights reserved.
 - [ ] Automatic meeting detection
 - [ ] Speaker diarization (who said what)
 - [ ] Cloud sync option (optional)
-- [ ] macOS and Linux support
+- [ ] macOS support
 - [ ] Real-time transcription preview
 
 ---
