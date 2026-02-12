@@ -2,3 +2,4 @@ pystray
 Pillow
 faster-whisper
 sounddevice
+soundfile
