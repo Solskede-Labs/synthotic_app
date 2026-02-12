@@ -7,14 +7,21 @@ from queue import Queue
 
 try:
     import soundfile as sf
-    from faster_whisper import WhisperModel
 except ImportError:
     sf = None
+
+try:
+    from faster_whisper import WhisperModel
+except ImportError:
     WhisperModel = None
 
 from src.constants import MODEL_SIZE
 
 def transcription_worker(audio_path, gui_queue, config, is_import=False):
+    if sf is None:
+        gui_queue.put(("error", "Missing dependency: soundfile"))
+        return
+
     if WhisperModel is None:
         gui_queue.put(("error", "Missing dependency: faster-whisper"))
         return
